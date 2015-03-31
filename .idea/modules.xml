@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Pfi3_2015_Klara_S.iml" filepath="$PROJECT_DIR$/Pfi3_2015_Klara_S.iml" />
-      <module fileurl="file://$PROJECT_DIR$/klarappo/ScreenAndroid.iml" filepath="$PROJECT_DIR$/klarappo/ScreenAndroid.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ScreenAndroid/ScreenAndroid.iml" filepath="$PROJECT_DIR$/ScreenAndroid/ScreenAndroid.iml" />
     </modules>
   </component>
 </project>
