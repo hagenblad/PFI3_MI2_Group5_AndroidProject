@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/app/Assignment_1.iml" filepath="$PROJECT_DIR$/app/Assignment_1.iml" />
       <module fileurl="file://$PROJECT_DIR$/Pfi3_2015_Klara_S.iml" filepath="$PROJECT_DIR$/Pfi3_2015_Klara_S.iml" />
+      <module fileurl="file://$PROJECT_DIR$/klarappo/ScreenAndroid.iml" filepath="$PROJECT_DIR$/klarappo/ScreenAndroid.iml" />
     </modules>
   </component>
 </project>
