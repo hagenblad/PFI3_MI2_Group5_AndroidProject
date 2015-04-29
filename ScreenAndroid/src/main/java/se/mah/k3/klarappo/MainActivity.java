@@ -1,6 +1,9 @@
 package se.mah.k3.klarappo;
 
-import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -8,7 +11,7 @@ import android.view.MenuItem;
 import com.firebase.client.Firebase;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,10 +19,10 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         Firebase.setAndroidContext(this);
         if (savedInstanceState == null) {
-            android.support.v4.app.FragmentManager fm;
-            fm = getSupportFragmentManager();
-            android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
-            ft.add(R.id.container, new LoginFragment());
+            FragmentManager fm;
+            fm = getFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.replace(R.id.container, new LoginFragment());
             ft.commit();
         }
     }

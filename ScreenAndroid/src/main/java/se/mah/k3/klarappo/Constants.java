@@ -9,5 +9,7 @@ public class Constants {
     public static String userName = "Lars";
     public static int xPos = 100;
     public static int yPos = 100;
-    public static Firebase myFirebaseRef = new Firebase("https://klara.firebaseio.com/");
+    //public static Firebase myFirebaseRef = new Firebase("https://klara.firebaseio.com/");
+    //Since this is static it will be instansiated at startup of the App
+    public static Firebase myFirebaseRef = new Firebase("https://blinding-heat-7399.firebaseio.com/");
 }

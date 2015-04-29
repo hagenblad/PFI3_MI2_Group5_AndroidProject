@@ -1,16 +1,14 @@
 package se.mah.k3.klarappo;
 
+import android.app.Fragment;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.Display;
-import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.firebase.client.DataSnapshot;
@@ -21,14 +19,12 @@ import com.firebase.client.ValueEventListener;
 /**
  * Created by K3LARA on 28/03/2015.
  */
-public class MainFragment extends Fragment implements View.OnClickListener{
+public class MainFragment extends Fragment implements View.OnClickListener, View.OnTouchListener, ValueEventListener{
     long lastTimeStamp = System.currentTimeMillis();
     long timeLastRound;
-    long averageSum=0;
-    long average =0;
     int width;
     int height;
-    private long roundtrip = 0;
+    private long roundTrip = 0;
     public MainFragment() {
     }
 
@@ -41,56 +37,61 @@ public class MainFragment extends Fragment implements View.OnClickListener{
         display.getSize(size);
         width = size.x;
         height = size.y;
-        //Log.i("MainFragment","Width: "+ width+" Height: "+height);
-        rootView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_MOVE:
-                        float xRel = event.getX()/width;
-                        float yRel = event.getRawY()/height;//Compensate for menubar can probably be solved mora beautiful
-                        Constants.myFirebaseRef.child(Constants.userName).child("xRel").setValue(xRel);
-                        Constants.myFirebaseRef.child(Constants.userName).child("yRel").setValue(yRel);
-                }
 
-             return true;
-            }
+        //Add listeners for the touch events onTouch will be called when screen is touched.
+        rootView.setOnTouchListener(this);
 
-        });
-            //Add listeners to resonse time
-            View v = rootView.findViewById(R.id.timelast);
-            v.setOnClickListener(this);
-            rootView.findViewById(R.id.textView).setOnClickListener(this);
+        //Add listeners to initiate a measure of roundtrip time onClick will be called.
+        View v = rootView.findViewById(R.id.iv_refresh);
+        v.setOnClickListener(this);
 
-            //Create listeners for response time back
-            Constants.myFirebaseRef.child(Constants.userName).child("RoundTripBack").addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot snapshot) {
-                    if (roundtrip > 0 && snapshot != null) {
-                        //Log.i("MainFragment", "Current value: " + snapshot.getValue());
-                        roundtrip = (long) snapshot.getValue();
-                        timeLastRound = System.currentTimeMillis() - lastTimeStamp;
-                        TextView timeLastTV = (TextView) getActivity().findViewById(R.id.timelast);
-                        timeLastTV.setText("" + timeLastRound);
-                    }
-                }
+        //Create listeners for response time back so know when the token returns
+        String userName = Constants.userName;
+        Firebase fireBaseEntryForMyID = Constants.myFirebaseRef.child(Constants.userName); //My part of the firebase
+        Firebase fireBaseEntryForRoundBack =  fireBaseEntryForMyID.child("RoundTripBack"); //My roundtrip (Check firebase)
+        //Listen for changes on "RoundTripBack" entry onDataChange will be called when "RoundTripBack" is changed
+        fireBaseEntryForRoundBack.addValueEventListener(this);
+        return rootView;
+    }
 
-                @Override
-                public void onCancelled(FirebaseError firebaseError) {
-                }
-            });
-            return rootView;
-        }
-     //Take care of clicks on response time
+
+     //Start a new time measure of roundtrip time
      @Override
     public void onClick(View v) {
-         if (v.getId()==R.id.textView || v.getId()==R.id.timelast) {
-             roundtrip = roundtrip + 1;
-             Log.i("MainFragment", "RoundTripTo: " + roundtrip);
-             lastTimeStamp = System.currentTimeMillis();
-             Constants.myFirebaseRef.child(Constants.userName).child("RoundTripTo").setValue(roundtrip);
+         if (v.getId()==R.id.iv_refresh) {
+             roundTrip = roundTrip + 1; //Assuming that we are the only one using our ID
+             lastTimeStamp = System.currentTimeMillis();  //remember when we sent the token
+             Constants.myFirebaseRef.child(Constants.userName).child("RoundTripTo").setValue(roundTrip);
          }
     }
 
+    //called if we move on the screen send the coordinates to fireBase
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_MOVE:  // If it is the motionEvent move.
+                float xRel = event.getX()/width;
+                float yRel = event.getRawY()/height;//Compensate for menubar can probably be solved more beautiful test with getY to see the difference
+                Constants.myFirebaseRef.child(Constants.userName).child("xRel").setValue(xRel);  //Set the x Value
+                Constants.myFirebaseRef.child(Constants.userName).child("yRel").setValue(yRel);  //Set the y value
+        }
+        return true; //Ok we consumed the event and no-one can use it it is ours!
+    }
+
+    //This is called when the roundtrip is completed so show the time
+    @Override
+    public void onDataChange(DataSnapshot dataSnapshot) {
+        if (roundTrip > 0 && dataSnapshot != null) {
+            roundTrip = (long) dataSnapshot.getValue();
+            timeLastRound = System.currentTimeMillis() - lastTimeStamp;
+            TextView timeLastTV = (TextView) getActivity().findViewById(R.id.timelast);
+            timeLastTV.setText("" + timeLastRound);
+        }
+    }
+
+    @Override
+    public void onCancelled(FirebaseError firebaseError) {
+
+    }
 }
 
