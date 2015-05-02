@@ -11,6 +11,6 @@ public class Constants {
     public static int yPos = 100;
     //public static Firebase myFirebaseRef = new Firebase("https://klara.firebaseio.com/");
     //Since this is static it will be instansiateddd at startup of the App
-    //Use static for variables that you want to reach from anywhere in the app.
+    //Use static for variables that you want to reach from anywhere in the app..
     public static Firebase myFirebaseRef = new Firebase("https://blinding-heat-7399.firebaseio.com/");
 }
