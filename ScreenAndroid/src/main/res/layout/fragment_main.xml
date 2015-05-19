@@ -9,15 +9,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center_vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Responstime (ms) : "
-            android:id="@+id/textView"
-            android:textColor="#000"
-            />
+        android:gravity="center_vertical"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true">
 
         <TextView
             android:layout_width="wrap_content"
@@ -25,16 +19,13 @@
             android:text="00000"
             android:id="@+id/timelast"
             android:nestedScrollingEnabled="false"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
             android:textColor="#000"
             />
 
         <ImageView
             android:id="@+id/iv_refresh"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:background="@mipmap/ic_action_refresh"/>
-
     </LinearLayout>
 </RelativeLayout>

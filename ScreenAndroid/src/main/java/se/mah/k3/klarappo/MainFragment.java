@@ -119,7 +119,7 @@ public class MainFragment extends Fragment implements View.OnClickListener, View
     }
 
 
-    private class MyAsyncTask extends AsyncTask<String,Void,Long>{
+/*    private class MyAsyncTask extends AsyncTask<String,Void,Long>{
         @Override
         protected Long doInBackground(String... params) {
             // Vi gissar att det som sker i onclick istället ska ske här
@@ -134,7 +134,7 @@ public class MainFragment extends Fragment implements View.OnClickListener, View
         @Override
         protected void onPostExecute(Long result) { onDataChange();}
     }
-
+*/
     @Override
     public void onCancelled(FirebaseError firebaseError) {
 

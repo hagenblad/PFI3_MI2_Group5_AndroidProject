@@ -33,14 +33,15 @@
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
             android:ems="6"
-            android:textColor="#ffffff"/>
+            android:textColor="#ffffff"
+            android:textAlignment="center" />
 
         <TextView
             style="@style/LoginText"
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="32dp"
             android:text="@string/screennumber"
             android:textColor="#ffffff"
             />
@@ -50,11 +51,11 @@
             android:id="@+id/screenNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:inputType="number"
+            android:ems="2"
             android:text="145"
             android:textColor="#ffffff"
-            />
+            android:textAlignment="center" />
 
         <Button
             style="@style/LoginText"
@@ -62,10 +63,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/login_button"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="84dp"
             android:background="#ffffff"
             android:textColor="#000000"
-            />
+            android:clickable="true" />
 
     </LinearLayout>
 
