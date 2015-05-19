@@ -2,6 +2,7 @@ package se.mah.k3.klarappo;
 
 import android.app.Fragment;
 import android.graphics.Point;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
@@ -10,6 +11,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.os.Handler;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -25,8 +27,26 @@ public class MainFragment extends Fragment implements View.OnClickListener, View
     int width;
     int height;
     private long roundTrip = 0;
+    long startTime = 0;
+
+    Handler timerHandler = new Handler();
+    Runnable timerRunnable = new Runnable() {
+
+        @Override
+        public void run() {
+            timerHandler.removeCallbacks(timerRunnable);
+            roundTrip = roundTrip + 1; //Assuming that we are the only one using our ID
+            lastTimeStamp = System.currentTimeMillis();  //remember when we sent the token
+            Constants.myFirebaseRef.child(Constants.userName).child("RoundTripTo").setValue(roundTrip);
+
+            timerHandler.postDelayed(timerRunnable, 0);
+        }
+    };
+
     public MainFragment() {
     }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -65,6 +85,14 @@ public class MainFragment extends Fragment implements View.OnClickListener, View
          }
     }
 
+    //här försökte vi automatisera det som händer i onclick metoden
+
+   // public void onSearchFinished(){
+   //     roundTrip = roundTrip + 1; //Assuming that we are the only one using our ID
+   //     lastTimeStamp = System.currentTimeMillis();  //remember when we sent the token
+   //     Constants.myFirebaseRef.child(Constants.userName).child("RoundTripTo").setValue(roundTrip);
+   // }
+
     //called if we move on the screen send the coordinates to fireBase
     @Override
     public boolean onTouch(View v, MotionEvent event) {
@@ -86,7 +114,25 @@ public class MainFragment extends Fragment implements View.OnClickListener, View
             timeLastRound = System.currentTimeMillis() - lastTimeStamp;
             TextView timeLastTV = (TextView) getActivity().findViewById(R.id.timelast);
             timeLastTV.setText("" + timeLastRound);
+            Constants.myFirebaseRef.child(Constants.userName).child("ping").setValue(timeLastRound);
         }
+    }
+
+
+    private class MyAsyncTask extends AsyncTask<String,Void,Long>{
+        @Override
+        protected Long doInBackground(String... params) {
+            // Vi gissar att det som sker i onclick istället ska ske här
+            roundTrip = roundTrip + 1; //Assuming that we are the only one using our ID
+            lastTimeStamp = System.currentTimeMillis();  //remember when we sent the token
+            Constants.myFirebaseRef.child(Constants.userName).child("RoundTripTo").setValue(roundTrip);
+        return null;
+        }
+
+        //Osäker på vilken metod och hur man man refererar till den här
+        //Vi vill att det som händer i onDataChange ska ske varje gång tråden uppdateras
+        @Override
+        protected void onPostExecute(Long result) { onDataChange();}
     }
 
     @Override
