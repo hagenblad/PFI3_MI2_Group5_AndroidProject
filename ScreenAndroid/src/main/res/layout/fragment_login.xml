@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:text="@string/login_name"
             android:id="@+id/textView3"
-            android:textColor="#ffffff"
+            android:textColor="#fff"
             android:layout_marginTop="28dp"/>
 
         <EditText
@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
             android:ems="6"
-            android:textColor="#ffffff"
+            android:textColor="#fff"
             android:textAlignment="center" />
 
         <TextView
@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:text="@string/screennumber"
-            android:textColor="#ffffff"
+            android:textColor="#fff"
             />
 
         <EditText
@@ -54,7 +54,7 @@
             android:inputType="number"
             android:ems="2"
             android:text="145"
-            android:textColor="#ffffff"
+            android:textColor="#fff"
             android:textAlignment="center" />
 
         <Button
@@ -64,8 +64,8 @@
             android:layout_height="wrap_content"
             android:text="@string/login_button"
             android:layout_marginTop="84dp"
-            android:background="#ffffff"
-            android:textColor="#000000"
+            android:background="#fff"
+            android:textColor="#000"
             android:clickable="true" />
 
     </LinearLayout>

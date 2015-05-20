@@ -135,8 +135,8 @@ public class MainFragment extends Fragment implements View.OnClickListener, View
         // Vi vill att det som händer i onDataChange ska ske varje gång tråden uppdateras
         // och vi tror att det ska skrivas in här i onPostExecute
         // Vi försökte köra vår metod onSearchFinished här inne men då klagar den
-        @Override
-        protected void onPostExecute(Long result) { onDataChange();}
+        //@Override
+        //protected void onPostExecute(Long result) { onDataChange();}
     }
 
     @Override
