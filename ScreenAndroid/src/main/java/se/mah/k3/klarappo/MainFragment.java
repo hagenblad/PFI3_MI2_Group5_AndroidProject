@@ -85,13 +85,14 @@ public class MainFragment extends Fragment implements View.OnClickListener, View
          }
     }
 
-    //här försökte vi automatisera det som händer i onclick metoden
-
-   // public void onSearchFinished(){
-   //     roundTrip = roundTrip + 1; //Assuming that we are the only one using our ID
-   //     lastTimeStamp = System.currentTimeMillis();  //remember when we sent the token
-   //     Constants.myFirebaseRef.child(Constants.userName).child("RoundTripTo").setValue(roundTrip);
-   // }
+    // Det vi vill göra är att uppdatera pingen till firebase automatiskt
+    // istället för att det ska ske genom knapptrycket i onClick
+    // här försökte vi automatisera det som händer i onclick metoden
+    public void onSearchFinished(){
+        roundTrip = roundTrip + 1; //Assuming that we are the only one using our ID
+        lastTimeStamp = System.currentTimeMillis();  //remember when we sent the token
+        Constants.myFirebaseRef.child(Constants.userName).child("RoundTripTo").setValue(roundTrip);
+    }
 
     //called if we move on the screen send the coordinates to fireBase
     @Override
@@ -119,22 +120,25 @@ public class MainFragment extends Fragment implements View.OnClickListener, View
     }
 
 
-/*    private class MyAsyncTask extends AsyncTask<String,Void,Long>{
+    private class MyAsyncTask extends AsyncTask<String,Void,Long>{
         @Override
         protected Long doInBackground(String... params) {
-            // Vi gissar att det som sker i onclick istället ska ske här
+            // Vi gissar att det som sker i onClick istället ska ske här så vi har klistrat in det här
+            // eftersom det är detta som ska ske kontinuerligt och per automatik
             roundTrip = roundTrip + 1; //Assuming that we are the only one using our ID
             lastTimeStamp = System.currentTimeMillis();  //remember when we sent the token
             Constants.myFirebaseRef.child(Constants.userName).child("RoundTripTo").setValue(roundTrip);
         return null;
         }
 
-        //Osäker på vilken metod och hur man man refererar till den här
-        //Vi vill att det som händer i onDataChange ska ske varje gång tråden uppdateras
+        // Osäkra på vad som ska ske här
+        // Vi vill att det som händer i onDataChange ska ske varje gång tråden uppdateras
+        // och vi tror att det ska skrivas in här i onPostExecute
+        // Vi försökte köra vår metod onSearchFinished här inne men då klagar den
         @Override
         protected void onPostExecute(Long result) { onDataChange();}
     }
-*/
+
     @Override
     public void onCancelled(FirebaseError firebaseError) {
 
