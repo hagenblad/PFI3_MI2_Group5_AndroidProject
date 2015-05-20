@@ -21,7 +21,7 @@ import com.firebase.client.ValueEventListener;
 /**
  * Created by K3LARA on 28/03/2015.
  */
-public class MainFragment extends Fragment implements View.OnClickListener, View.OnTouchListener, ValueEventListener{
+public class MainFragment extends Fragment implements View.OnTouchListener, ValueEventListener{
     long lastTimeStamp = System.currentTimeMillis();
     long timeLastRound;
     int width;
@@ -68,8 +68,8 @@ public class MainFragment extends Fragment implements View.OnClickListener, View
         rootView.setOnTouchListener(this);
 
         //Add listeners to initiate a measure of roundtrip time onClick will be called.
-        View v = rootView.findViewById(R.id.iv_refresh);
-        v.setOnClickListener(this);
+/*        View v = rootView.findViewById(R.id.iv_refresh);
+        v.setOnClickListener(this);*/
 
         //Create listeners for response time back so know when the token returns
         String userName = Constants.userName;
@@ -82,14 +82,14 @@ public class MainFragment extends Fragment implements View.OnClickListener, View
 
 
      //Start a new time measure of roundtrip time
-     @Override
+/*     @Override
     public void onClick(View v) {
          if (v.getId()==R.id.iv_refresh) {
              roundTrip = roundTrip + 1; //Assuming that we are the only one using our ID
              lastTimeStamp = System.currentTimeMillis();  //remember when we sent the token
              Constants.getFirebaseRef().child(Constants.userName).child("RoundTripTo").setValue(roundTrip);
          }
-    }
+    }*/
 
     // Det vi vill göra är att uppdatera pingen till firebase automatiskt
     // istället för att det ska ske genom knapptrycket i onClick
