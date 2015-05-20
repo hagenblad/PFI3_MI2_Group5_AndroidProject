@@ -28,25 +28,31 @@ public class MainFragment extends Fragment implements View.OnClickListener, View
     int height;
     private long roundTrip = 0;
     long startTime = 0;
-
-    Handler timerHandler = new Handler();
-    Runnable timerRunnable = new Runnable() {
-
-        @Override
-        public void run() {
-            timerHandler.removeCallbacks(timerRunnable);
-            roundTrip = roundTrip + 1; //Assuming that we are the only one using our ID
-            lastTimeStamp = System.currentTimeMillis();  //remember when we sent the token
-            Constants.myFirebaseRef.child(Constants.userName).child("RoundTripTo").setValue(roundTrip);
-
-            timerHandler.postDelayed(timerRunnable, 0);
-        }
-    };
+// detta är snyggt men vi har inte arbetat så mycket med delegates och callbacks (det är egentligen bara lyssnare) se i slutet
+//    Handler timerHandler = new Handler();
+//    Runnable timerRunnable = new Runnable() {
+//
+//        @Override
+//        public void run() {
+//            timerHandler.removeCallbacks(timerRunnable);
+//            roundTrip = roundTrip + 1; //Assuming that we are the only one using our ID
+//            lastTimeStamp = System.currentTimeMillis();  //remember when we sent the token
+//            Constants.myFirebaseRef.child(Constants.userName).child("RoundTripTo").setValue(roundTrip);
+//
+//            timerHandler.postDelayed(timerRunnable, 0);
+//        }
+//    };
 
     public MainFragment() {
     }
 
-
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        //Start the thread  //Nier to do this here
+        MyThread myThread = new MyThread();
+        myThread.start();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,7 +73,7 @@ public class MainFragment extends Fragment implements View.OnClickListener, View
 
         //Create listeners for response time back so know when the token returns
         String userName = Constants.userName;
-        Firebase fireBaseEntryForMyID = Constants.myFirebaseRef.child(Constants.userName); //My part of the firebase
+        Firebase fireBaseEntryForMyID = Constants.getFirebaseRef().child(Constants.userName); //My part of the firebase
         Firebase fireBaseEntryForRoundBack =  fireBaseEntryForMyID.child("RoundTripBack"); //My roundtrip (Check firebase)
         //Listen for changes on "RoundTripBack" entry onDataChange will be called when "RoundTripBack" is changed
         fireBaseEntryForRoundBack.addValueEventListener(this);
@@ -81,18 +87,18 @@ public class MainFragment extends Fragment implements View.OnClickListener, View
          if (v.getId()==R.id.iv_refresh) {
              roundTrip = roundTrip + 1; //Assuming that we are the only one using our ID
              lastTimeStamp = System.currentTimeMillis();  //remember when we sent the token
-             Constants.myFirebaseRef.child(Constants.userName).child("RoundTripTo").setValue(roundTrip);
+             Constants.getFirebaseRef().child(Constants.userName).child("RoundTripTo").setValue(roundTrip);
          }
     }
 
     // Det vi vill göra är att uppdatera pingen till firebase automatiskt
     // istället för att det ska ske genom knapptrycket i onClick
     // här försökte vi automatisera det som händer i onclick metoden
-    public void onSearchFinished(){
-        roundTrip = roundTrip + 1; //Assuming that we are the only one using our ID
-        lastTimeStamp = System.currentTimeMillis();  //remember when we sent the token
-        Constants.myFirebaseRef.child(Constants.userName).child("RoundTripTo").setValue(roundTrip);
-    }
+//    public void onSearchFinished(){
+//        roundTrip = roundTrip + 1; //Assuming that we are the only one using our ID
+//        lastTimeStamp = System.currentTimeMillis();  //remember when we sent the token
+//        Constants.myFirebaseRef.child(Constants.userName).child("RoundTripTo").setValue(roundTrip);
+//    }
 
     //called if we move on the screen send the coordinates to fireBase
     @Override
@@ -101,8 +107,8 @@ public class MainFragment extends Fragment implements View.OnClickListener, View
             case MotionEvent.ACTION_MOVE:  // If it is the motionEvent move.
                 float xRel = event.getX()/width;
                 float yRel = event.getRawY()/height;//Compensate for menubar can probably be solved more beautiful test with getY to see the difference
-                Constants.myFirebaseRef.child(Constants.userName).child("xRel").setValue(xRel);  //Set the x Value
-                Constants.myFirebaseRef.child(Constants.userName).child("yRel").setValue(yRel);  //Set the y value
+                Constants.getFirebaseRef().child(Constants.userName).child("xRel").setValue(xRel);  //Set the x Value
+                Constants.getFirebaseRef().child(Constants.userName).child("yRel").setValue(yRel);  //Set the y value
         }
         return true; //Ok we consumed the event and no-one can use it it is ours!
     }
@@ -115,11 +121,11 @@ public class MainFragment extends Fragment implements View.OnClickListener, View
             timeLastRound = System.currentTimeMillis() - lastTimeStamp;
             TextView timeLastTV = (TextView) getActivity().findViewById(R.id.timelast);
             timeLastTV.setText("" + timeLastRound);
-            Constants.myFirebaseRef.child(Constants.userName).child("ping").setValue(timeLastRound);
+            Constants.getFirebaseRef().child(Constants.userName).child("ping").setValue(timeLastRound);
         }
     }
 
-
+/*    //mm denna är bara tänkt att användas när man skall göra något en gång:
     private class MyAsyncTask extends AsyncTask<String,Void,Long>{
         @Override
         protected Long doInBackground(String... params) {
@@ -135,13 +141,36 @@ public class MainFragment extends Fragment implements View.OnClickListener, View
         // Vi vill att det som händer i onDataChange ska ske varje gång tråden uppdateras
         // och vi tror att det ska skrivas in här i onPostExecute
         // Vi försökte köra vår metod onSearchFinished här inne men då klagar den
-        //@Override
-        //protected void onPostExecute(Long result) { onDataChange();}
-    }
+        @Override
+        protected void onPostExecute(Long result) { onDataChange();}
+    }*/
 
     @Override
     public void onCancelled(FirebaseError firebaseError) {
 
     }
+
+    //Fix for this user and runs as long as the program runs
+    private class MyThread extends Thread{
+        private boolean running = true;
+        public void stopThread(){  //if you need to stop it.... can and shul not be restarted
+            running = false;
+        }
+        @Override
+        public void run() {
+            while (running) {
+                try {
+                    Thread.sleep(5000); //Start delayed
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                roundTrip = roundTrip + 1; //Assuming that we are the only one using our ID
+                lastTimeStamp = System.currentTimeMillis();  //remember when we sent the token
+                Constants.getFirebaseRef().child(Constants.userName).child("RoundTripTo").setValue(roundTrip);
+            }
+        }
+    }
+
 }
 
