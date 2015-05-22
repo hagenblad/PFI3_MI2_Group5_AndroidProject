@@ -81,6 +81,7 @@ public class MainFragment extends Fragment implements View.OnTouchListener, Valu
     }
 
 
+
      //Start a new time measure of roundtrip time
 /*     @Override
     public void onClick(View v) {
