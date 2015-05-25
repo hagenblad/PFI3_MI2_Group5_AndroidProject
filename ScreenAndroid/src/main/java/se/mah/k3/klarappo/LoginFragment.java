@@ -58,7 +58,7 @@ public class LoginFragment extends Fragment implements ValueEventListener
                 long val = (long) snapshot.getValue();
                 String screenNbrFromFirebase = String.valueOf(val);
                 Log.i("LoginFragment", "Screen nbr entered: " + val + " Value from firebase: "+screenNbrFromFirebase);
-                int screenNumber = Constants.screenNbr;
+                String screenNumber = String.valueOf(Constants.screenNbr);
                 EditText name = (EditText) getActivity().findViewById(R.id.name);
                 Constants.userName = name.getText().toString();
                 //Are we on the right screen
