@@ -117,17 +117,12 @@ public class MainFragment extends Fragment implements View.OnTouchListener, Valu
     //This is called when the roundtrip is completed so show the time
     @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
-        try {
-            if (roundTrip > 0 && dataSnapshot != null) {
-                roundTrip = (long) dataSnapshot.getValue();
-                timeLastRound = System.currentTimeMillis() - lastTimeStamp;
-                TextView timeLastTV = (TextView) getActivity().findViewById(R.id.timelast);
-                timeLastTV.setText("" + timeLastRound);
-                Constants.getFirebaseRef().child(Constants.userName).child("ping").setValue(timeLastRound);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.i("MainFragment","onDataChange failed");
+        if (roundTrip > 0 && dataSnapshot != null) {
+            roundTrip = (long) dataSnapshot.getValue();
+            timeLastRound = System.currentTimeMillis() - lastTimeStamp;
+            TextView timeLastTV = (TextView) getActivity().findViewById(R.id.timelast);
+            timeLastTV.setText("" + timeLastRound);
+            Constants.getFirebaseRef().child(Constants.userName).child("ping").setValue(timeLastRound);
         }
     }
 

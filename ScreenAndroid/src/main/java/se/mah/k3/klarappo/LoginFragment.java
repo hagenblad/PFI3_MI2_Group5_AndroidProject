@@ -53,29 +53,24 @@ public class LoginFragment extends Fragment implements ValueEventListener
 
     @Override
     public void onDataChange(DataSnapshot snapshot) {
-        try {
-            if (snapshot.getValue()!=null) {
-                long val = (long) snapshot.getValue();
-                String screenNbrFromFirebase = String.valueOf(val);
-                Log.i("LoginFragment", "Screen nbr entered: " + val + " Value from firebase: "+screenNbrFromFirebase);
-                //EditText screenNumber = (EditText) getActivity().findViewById(R.id.screenNumber);
-                EditText name = (EditText) getActivity().findViewById(R.id.name);
-                Constants.userName = name.getText().toString();
-                //Are we on the right screen
-    //            if (screenNbrFromFirebase.equals(screenNumber.getText().toString())){
-    //                Log.i("LoginFragment", "Logged in");
-    //                FragmentManager fm;
-    //                fm = getFragmentManager();
-    //                FragmentTransaction ft = fm.beginTransaction();
-    //                ft.replace(R.id.container, new MainFragment());
-    //                ft.commit();
-    //            }else{
-    //                Toast.makeText(getActivity(),"Not the correct Screen",Toast.LENGTH_LONG).show();
-    //            }
+        if (snapshot.getValue()!=null) {
+            long val = (long) snapshot.getValue();
+            String screenNbrFromFirebase = String.valueOf(val);
+            Log.i("LoginFragment", "Screen nbr entered: " + val + " Value from firebase: "+screenNbrFromFirebase);
+            int screenNumber = Constants.screenNbr;
+            EditText name = (EditText) getActivity().findViewById(R.id.name);
+            Constants.userName = name.getText().toString();
+            //Are we on the right screen
+            if (screenNbrFromFirebase.equals(screenNumber)){
+                Log.i("LoginFragment", "Logged in");
+                FragmentManager fm;
+                fm = getFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                ft.replace(R.id.container, new MainFragment());
+                ft.commit();
+            }else{
+                Toast.makeText(getActivity(),"Not the correct Screen",Toast.LENGTH_LONG).show();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.i("LoginFragment","onDataChange failed");
         }
     }
 

@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">Ping pong</string>
     <string name="action_settings">Settings</string>
-    <string name="screennumber">Screen number</string>
+    <string name="screennumber">145</string>
     <string name="login_name">Name</string>
-    <string name="description">Swipe your finger to move your paddle.</string>
+    <string name="description">Instructions: \nSwipe your finger to move your paddle.</string>
     <string name="login_button">Play!</string>
     <string name="logo_text">Ping pong</string>
 

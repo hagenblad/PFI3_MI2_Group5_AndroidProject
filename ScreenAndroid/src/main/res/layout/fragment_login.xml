@@ -42,7 +42,8 @@
             android:inputType="textPersonName"
             android:ems="6"
             android:textColor="#fff"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:gravity="center_horizontal" />
 
         <TextView
             android:textAlignment="center"
@@ -51,9 +52,10 @@
             android:layout_marginTop="30dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/description"/>
+            android:text="@string/description"
+            android:gravity="center_horizontal" />
 
-        <!--<TextView
+       <!-- <TextView
             style="@style/LoginText"
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
@@ -69,12 +71,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="number"
-            android:ems="2"
-            android:text="145"
+            android:ems="0"
             android:textColor="#fff"
             android:textAlignment="center" />
-        -->
 
+-->
         <Button
             style="@style/LoginText"
             android:id="@+id/btnLogon"
