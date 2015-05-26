@@ -62,6 +62,10 @@ public class LoginFragment extends Fragment implements ValueEventListener
                 EditText name = (EditText) getActivity().findViewById(R.id.name);
                 Constants.userName = name.getText().toString();
                 //Are we on the right screen
+                Log.i("name",Constants.userName);
+                if (name.getText().toString().equals("")){
+                    Toast.makeText(getActivity(),getResources().getString(R.string.empty_name),Toast.LENGTH_LONG).show(); //Toast message if player hasn't entered name
+                }else{
                 if (screenNbrFromFirebase.equals(screenNumber)){
                     Log.i("LoginFragment", "Logged in");
                     FragmentManager fm;
@@ -69,9 +73,11 @@ public class LoginFragment extends Fragment implements ValueEventListener
                     FragmentTransaction ft = fm.beginTransaction();
                     ft.replace(R.id.container, new MainFragment());
                     ft.commit();
+                    Toast.makeText(getActivity(),getResources().getString(R.string.toast_instruction),Toast.LENGTH_LONG).show(); //Toast info message when entering the game
                 }else{
-                    Toast.makeText(getActivity(),"Not the correct Screen",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(),getResources().getString(R.string.toast_incorrect_screen),Toast.LENGTH_LONG).show();
                 }
+                    }
             }
         } catch (Exception e) {
             e.printStackTrace();

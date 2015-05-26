@@ -37,6 +37,7 @@
         <EditText
             style="@style/LoginText"
             android:id="@+id/name"
+            android:text=""
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
@@ -46,6 +47,12 @@
             android:gravity="center_horizontal" />
 
         <TextView
+            android:id="@+id/instructionToast"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|center_horizontal"/>
+
+        <!--<TextView
             android:textAlignment="center"
             android:textSize="18sp"
             android:textColor="#fff"
@@ -55,7 +62,7 @@
             android:text="@string/description"
             android:gravity="center_horizontal" />
 
-       <!-- <TextView
+        <TextView
             style="@style/LoginText"
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
