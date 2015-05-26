@@ -15,23 +15,25 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="42dp"
             android:background="@drawable/launchericon"/>
 
         <TextView
+            android:id="@+id/logoText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/logo_text"
             android:textSize="36sp"
+            android:textColor="#2b2b2b"
             android:layout_marginBottom="24dp"/>
 
         <TextView
-            style="@style/LoginText"
+            android:id="@+id/nameTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/login_name"
-            android:id="@+id/textView3"
-            android:textColor="#fff"
+            android:textColor="#2b2b2b"
+            android:textSize="30sp"
             android:layout_marginTop="28dp"/>
 
         <EditText
@@ -42,7 +44,7 @@
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
             android:ems="6"
-            android:textColor="#fff"
+            android:textColor="#2b2b2b"
             android:textAlignment="center"
             android:gravity="center_horizontal" />
 
@@ -84,12 +86,12 @@
 
 -->
         <Button
-            style="@style/LoginText"
             android:id="@+id/btnLogon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/login_button"
             android:layout_marginTop="74dp"
+            android:textSize="24sp"
             android:background="#fff"
             android:textColor="#000"/>
 

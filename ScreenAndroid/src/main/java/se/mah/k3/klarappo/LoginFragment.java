@@ -4,12 +4,15 @@ package se.mah.k3.klarappo;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.client.DataSnapshot;
@@ -35,6 +38,25 @@ public class LoginFragment extends Fragment implements ValueEventListener
                              Bundle savedInstanceState) {
         View returnView = inflater.inflate(R.layout.fragment_login, container, false);
         View v = returnView.findViewById(R.id.btnLogon);
+
+        //Imports Exo Bold & Exo Extra Light fonts
+        Typeface ExoB = Typeface.createFromAsset(getActivity().getAssets(), "fonts/ExoBold.ttf");
+        Typeface ExoEL = Typeface.createFromAsset(getActivity().getAssets(), "fonts/ExoExtraLight.ttf");
+
+
+        TextView tv = (TextView)returnView.findViewById(R.id.logoText);
+        tv.setTypeface(ExoB);
+
+        TextView tv2 = (TextView)returnView.findViewById(R.id.nameTitle);
+        tv2.setTypeface(ExoEL);
+
+        EditText et = (EditText)returnView.findViewById(R.id.name);
+        et.setTypeface(ExoEL);
+
+        Button btn = (Button)returnView.findViewById(R.id.btnLogon);
+        btn.setTypeface(ExoB);
+
+
         v.setOnClickListener(new View.OnClickListener() {
             //Click on loginButton
             @Override
@@ -49,7 +71,6 @@ public class LoginFragment extends Fragment implements ValueEventListener
         });
         return returnView;
     }
-
 
     @Override
     public void onDataChange(DataSnapshot snapshot) {
@@ -66,18 +87,18 @@ public class LoginFragment extends Fragment implements ValueEventListener
                 if (name.getText().toString().equals("")){
                     Toast.makeText(getActivity(),getResources().getString(R.string.empty_name),Toast.LENGTH_LONG).show(); //Toast message if player hasn't entered name
                 }else{
-                if (screenNbrFromFirebase.equals(screenNumber)){
-                    Log.i("LoginFragment", "Logged in");
-                    FragmentManager fm;
-                    fm = getFragmentManager();
-                    FragmentTransaction ft = fm.beginTransaction();
-                    ft.replace(R.id.container, new MainFragment());
-                    ft.commit();
-                    Toast.makeText(getActivity(),getResources().getString(R.string.toast_instruction),Toast.LENGTH_LONG).show(); //Toast info message when entering the game
-                }else{
-                    Toast.makeText(getActivity(),getResources().getString(R.string.toast_incorrect_screen),Toast.LENGTH_LONG).show();
-                }
+                    if (screenNbrFromFirebase.equals(screenNumber)){
+                        Log.i("LoginFragment", "Logged in");
+                        FragmentManager fm;
+                        fm = getFragmentManager();
+                        FragmentTransaction ft = fm.beginTransaction();
+                        ft.replace(R.id.container, new MainFragment());
+                        ft.commit();
+                        Toast.makeText(getActivity(),getResources().getString(R.string.toast_instruction),Toast.LENGTH_LONG).show(); //Toast info message when entering the game
+                    }else{
+                        Toast.makeText(getActivity(),getResources().getString(R.string.toast_incorrect_screen),Toast.LENGTH_LONG).show();
                     }
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();

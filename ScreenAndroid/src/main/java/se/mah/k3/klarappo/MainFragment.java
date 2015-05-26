@@ -54,6 +54,8 @@ public class MainFragment extends Fragment implements View.OnTouchListener, Valu
         myThread.start();
     }
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

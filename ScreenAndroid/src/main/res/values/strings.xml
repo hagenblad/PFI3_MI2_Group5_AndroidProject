@@ -4,7 +4,7 @@
     <string name="screennumber">145</string>
     <string name="login_name">Name</string>
     <string name="description">Instructions: \nSwipe your finger to move your paddle.</string>
-    <string name="login_button">Play!</string>
+    <string name="login_button">Play</string>
     <string name="logo_text">Ping pong</string>
     <string name="toast_instruction">Swipe your finger across the screen to move your paddle.</string>
     <string name="toast_incorrect_screen">Incorrect screen number.</string>
