@@ -59,7 +59,7 @@ public class LoginFragment extends Fragment implements ValueEventListener
 
         final ProgressBar prog = (ProgressBar)returnView.findViewById(R.id.progressBar);
         prog.setVisibility(View.INVISIBLE);
-//hej
+
 
         v.setOnClickListener(new View.OnClickListener() {
             //Click on loginButton
