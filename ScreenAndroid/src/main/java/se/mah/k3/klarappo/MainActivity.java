@@ -29,6 +29,19 @@ public class MainActivity extends Activity {
         }
     }
 
+    @Override
+    public void onStop(){
+        super.onStop();
+        Constants.getFirebaseRef().child(Constants.userName).removeValue();
+        Log.i("onStop","username deleted");
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        Constants.getFirebaseRef().child(Constants.userName).removeValue();
+        Log.i("onDestroy","username deleted");
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -28,6 +28,9 @@ public class MainFragment extends Fragment implements View.OnTouchListener, Valu
     int height;
     private long roundTrip = 0;
     long startTime = 0;
+    float xRel = 0.5f;
+    float yRel = 0.5f;
+    MyThread myThread = new MyThread();
 // detta är snyggt men vi har inte arbetat så mycket med delegates och callbacks (det är egentligen bara lyssnare) se i slutet
 //    Handler timerHandler = new Handler();
 //    Runnable timerRunnable = new Runnable() {
@@ -50,7 +53,8 @@ public class MainFragment extends Fragment implements View.OnTouchListener, Valu
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //Start the thread  //Nier to do this here
-        MyThread myThread = new MyThread();
+        myThread = new MyThread();
+        myThread.running = true;
         myThread.start();
     }
 
@@ -78,6 +82,10 @@ public class MainFragment extends Fragment implements View.OnTouchListener, Valu
         Firebase fireBaseEntryForMyID = Constants.getFirebaseRef().child(Constants.userName); //My part of the firebase
         Firebase fireBaseEntryForRoundBack =  fireBaseEntryForMyID.child("RoundTripBack"); //My roundtrip (Check firebase)
         //Listen for changes on "RoundTripBack" entry onDataChange will be called when "RoundTripBack" is changed
+
+        Constants.getFirebaseRef().child(Constants.userName).child("xRel").setValue(xRel);  //Set the x Value
+        Constants.getFirebaseRef().child(Constants.userName).child("yRel").setValue(yRel);  //Set the y Value
+
         fireBaseEntryForRoundBack.addValueEventListener(this);
         return rootView;
     }
@@ -158,6 +166,13 @@ public class MainFragment extends Fragment implements View.OnTouchListener, Valu
 
     }
 
+    @Override
+    public void onPause(){
+        super.onPause();
+        myThread.stopThread();
+        Constants.getFirebaseRef().child(Constants.userName).removeValue();
+    }
+
     //Fix for this user and runs as long as the program runs
     private class MyThread extends Thread{
         private boolean running = true;
@@ -173,9 +188,9 @@ public class MainFragment extends Fragment implements View.OnTouchListener, Valu
                     e.printStackTrace();
                 }
 
-                roundTrip = roundTrip + 1; //Assuming that we are the only one using our ID
-                lastTimeStamp = System.currentTimeMillis();  //remember when we sent the token
-                Constants.getFirebaseRef().child(Constants.userName).child("RoundTripTo").setValue(roundTrip);
+                    roundTrip = roundTrip + 1; //Assuming that we are the only one using our ID
+                    lastTimeStamp = System.currentTimeMillis();  //remember when we sent the token
+                    Constants.getFirebaseRef().child(Constants.userName).child("RoundTripTo").setValue(roundTrip);
             }
         }
     }
