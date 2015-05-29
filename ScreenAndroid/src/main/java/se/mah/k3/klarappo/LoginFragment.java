@@ -108,6 +108,7 @@ public class LoginFragment extends Fragment implements ValueEventListener
                 fm = getFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
                 ft.replace(R.id.container, new MainFragment());
+                ft.addToBackStack(null);
                 ft.commit();
                 Toast.makeText(getActivity(),getResources().getString(R.string.toast_instruction),Toast.LENGTH_LONG).show(); //Toast info message when entering the game
 
