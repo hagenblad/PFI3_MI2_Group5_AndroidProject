@@ -118,8 +118,8 @@ public class MainFragment extends Fragment implements View.OnTouchListener, Valu
             case MotionEvent.ACTION_MOVE:  // If it is the motionEvent move.
                 float xRel = event.getX()/width;
                 float yRel = event.getRawY()/height;//Compensate for menubar can probably be solved more beautiful test with getY to see the difference
-                Constants.getFirebaseRef().child(Constants.userName).child("xRel").setValue(xRel);  //Set the x Value
-                Constants.getFirebaseRef().child(Constants.userName).child("yRel").setValue(yRel);  //Set the y value
+                Constants.getFirebaseRef().child(Constants.userName).child("xRel").setValue(xRel/1.9);  //Set the x Value
+                Constants.getFirebaseRef().child(Constants.userName).child("yRel").setValue(yRel/1.9);  //Set the y value
         }
         return true; //Ok we consumed the event and no-one can use it it is ours!
     }
