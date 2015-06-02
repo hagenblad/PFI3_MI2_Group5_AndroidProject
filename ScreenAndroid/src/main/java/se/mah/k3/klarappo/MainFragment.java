@@ -39,20 +39,6 @@ public class MainFragment extends Fragment implements View.OnTouchListener, Valu
     float xRel = 0.5f;
     float yRel = 0.5f;
     MyThread myThread = new MyThread();
-// detta är snyggt men vi har inte arbetat så mycket med delegates och callbacks (det är egentligen bara lyssnare) se i slutet
-//    Handler timerHandler = new Handler();
-//    Runnable timerRunnable = new Runnable() {
-//
-//        @Override
-//        public void run() {
-//            timerHandler.removeCallbacks(timerRunnable);
-//            roundTrip = roundTrip + 1; //Assuming that we are the only one using our ID
-//            lastTimeStamp = System.currentTimeMillis();  //remember when we sent the token
-//            Constants.myFirebaseRef.child(Constants.userName).child("RoundTripTo").setValue(roundTrip);
-//
-//            timerHandler.postDelayed(timerRunnable, 0);
-//        }
-//    };
 
     public MainFragment() {
     }
@@ -65,8 +51,6 @@ public class MainFragment extends Fragment implements View.OnTouchListener, Valu
         myThread.running = true;
         myThread.start();
     }
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -166,27 +150,6 @@ fbColorrs.addChildEventListener(new ChildEventListener() {
         return rootView;
     }
 
-
-
-    //Start a new time measure of roundtrip time
-/*     @Override
-    public void onClick(View v) {
-         if (v.getId()==R.id.iv_refresh) {
-             roundTrip = roundTrip + 1; //Assuming that we are the only one using our ID
-             lastTimeStamp = System.currentTimeMillis();  //remember when we sent the token
-             Constants.getFirebaseRef().child(Constants.userName).child("RoundTripTo").setValue(roundTrip);
-         }
-    }*/
-
-    // Det vi vill göra är att uppdatera pingen till firebase automatiskt
-    // istället för att det ska ske genom knapptrycket i onClick
-    // här försökte vi automatisera det som händer i onclick metoden
-//    public void onSearchFinished(){
-//        roundTrip = roundTrip + 1; //Assuming that we are the only one using our ID
-//        lastTimeStamp = System.currentTimeMillis();  //remember when we sent the token
-//        Constants.myFirebaseRef.child(Constants.userName).child("RoundTripTo").setValue(roundTrip);
-//    }
-
     //called if we move on the screen send the coordinates to fireBase
     @Override
     public boolean onTouch(View v, MotionEvent event) {
@@ -207,8 +170,8 @@ fbColorrs.addChildEventListener(new ChildEventListener() {
             if (roundTrip > 0 && dataSnapshot != null) {
                 roundTrip = (long) dataSnapshot.getValue();
                 timeLastRound = System.currentTimeMillis() - lastTimeStamp;
-                TextView timeLastTV = (TextView) getActivity().findViewById(R.id.timelast);
-                timeLastTV.setText("" + timeLastRound);
+//                TextView timeLastTV = (TextView) getActivity().findViewById(R.id.timelast);
+//                timeLastTV.setText("" + timeLastRound);
                 Constants.getFirebaseRef().child(Constants.userName).child("ping").setValue(timeLastRound);
             }
         } catch (Exception e) {
@@ -216,7 +179,7 @@ fbColorrs.addChildEventListener(new ChildEventListener() {
             Log.i("MainFragment","onDataChanged failed");
         }
         try {
-            // U402
+
             Log.i("mainFragment", "här kommer siffran " + dataSnapshot.child(Constants.userName).child("position").getValue());
 Log.i("xyz", " "+dataSnapshot);
             Log.i("xyz", " "+dataSnapshot.getKey());
@@ -236,26 +199,6 @@ Log.i("xyz", " "+dataSnapshot);
             Log.i("MainFragment", "onDataChanged failed");
         }
     }
-
-/*    //mm denna är bara tänkt att användas när man skall göra något en gång:
-    private class MyAsyncTask extends AsyncTask<String,Void,Long>{
-        @Override
-        protected Long doInBackground(String... params) {
-            // Vi gissar att det som sker i onClick istället ska ske här så vi har klistrat in det här
-            // eftersom det är detta som ska ske kontinuerligt och per automatik
-            roundTrip = roundTrip + 1; //Assuming that we are the only one using our ID
-            lastTimeStamp = System.currentTimeMillis();  //remember when we sent the token
-            Constants.myFirebaseRef.child(Constants.userName).child("RoundTripTo").setValue(roundTrip);
-        return null;
-        }
-
-        // Osäkra på vad som ska ske här
-        // Vi vill att det som händer i onDataChange ska ske varje gång tråden uppdateras
-        // och vi tror att det ska skrivas in här i onPostExecute
-        // Vi försökte köra vår metod onSearchFinished här inne men då klagar den
-        @Override
-        protected void onPostExecute(Long result) { onDataChange();}
-    }*/
 
     @Override
     public void onCancelled(FirebaseError firebaseError) {
