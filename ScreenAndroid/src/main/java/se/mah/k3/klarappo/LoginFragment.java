@@ -86,6 +86,7 @@ public class LoginFragment extends Fragment implements ValueEventListener
 
                         // }else{
                         //   Toast.makeText(getActivity(),getResources().getString(R.string.toast_incorrect_screen),Toast.LENGTH_LONG).show();
+  
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -104,6 +105,9 @@ public class LoginFragment extends Fragment implements ValueEventListener
                 String screenNbrFromFirebase = String.valueOf(val);
                 Log.i("LoginFragment", "Screen nbr entered: " + val + " Value from firebase: "+screenNbrFromFirebase);
                 Log.i("LoginFragment", "Logged in");
+
+
+
                 FragmentManager fm;
                 fm = getFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
@@ -112,11 +116,16 @@ public class LoginFragment extends Fragment implements ValueEventListener
                 ft.commit();
                 Toast.makeText(getActivity(),getResources().getString(R.string.toast_instruction),Toast.LENGTH_LONG).show(); //Toast info message when entering the game
 
+
+
+
             }
         } catch (Exception e) {
             e.printStackTrace();
             Log.i("LoginFragment","onDataChanged failed");
         }
+
+
     }
 
     @Override

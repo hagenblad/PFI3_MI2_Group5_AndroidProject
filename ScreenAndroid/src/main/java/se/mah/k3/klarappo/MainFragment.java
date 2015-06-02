@@ -1,6 +1,7 @@
 package se.mah.k3.klarappo;
 
 import android.app.Fragment;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.os.Handler;
 
+import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -24,9 +26,15 @@ import com.firebase.client.ValueEventListener;
 public class MainFragment extends Fragment implements View.OnTouchListener, ValueEventListener{
     long lastTimeStamp = System.currentTimeMillis();
     long timeLastRound;
+    Firebase fbColors;
+    Firebase fbColorrs;
+
+    String leUser;
     int width;
+    public Long myColorIs;
     int height;
     private long roundTrip = 0;
+    public int position;
     long startTime = 0;
     float xRel = 0.5f;
     float yRel = 0.5f;
@@ -81,18 +89,86 @@ public class MainFragment extends Fragment implements View.OnTouchListener, Valu
         String userName = Constants.userName;
         Firebase fireBaseEntryForMyID = Constants.getFirebaseRef().child(Constants.userName); //My part of the firebase
         Firebase fireBaseEntryForRoundBack =  fireBaseEntryForMyID.child("RoundTripBack"); //My roundtrip (Check firebase)
+
+
         //Listen for changes on "RoundTripBack" entry onDataChange will be called when "RoundTripBack" is changed
 
         Constants.getFirebaseRef().child(Constants.userName).child("xRel").setValue(xRel);  //Set the x Value
         Constants.getFirebaseRef().child(Constants.userName).child("yRel").setValue(yRel);  //Set the y Value
 
+        Firebase fireBaseEntryForPosition = Constants.getFirebaseRef().child("position");
+        fireBaseEntryForPosition.addValueEventListener(this);
+
         fireBaseEntryForRoundBack.addValueEventListener(this);
+
+        /* position stuff */
+
+        fbColorrs = new Firebase("https://pingispong.firebaseio.com/"+Constants.userName);
+fbColorrs.addChildEventListener(new ChildEventListener() {
+    @Override
+    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+        Log.i("hej "+dataSnapshot.getKey().toString(), " "+Constants.userName+"position");
+        if(dataSnapshot.getKey().toString().equals("position") ) {
+
+            fbColors = new Firebase("https://pingispong.firebaseio.com/"+Constants.userName);
+            fbColors.addListenerForSingleValueEvent(new ValueEventListener() {
+
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshotz) {
+
+                    Log.i("color pos", " " + dataSnapshotz.child("position").getValue());
+                    myColorIs = (Long) dataSnapshotz.child("position").getValue();
+                    if (myColorIs == 1){
+                        getView().setBackgroundColor(Color.rgb(89,155,185));
+                    }
+                    if (myColorIs == 2){
+                        getView().setBackgroundColor(Color.rgb(140,186,102));
+                    }
+                    if (myColorIs == 3){
+                        getView().setBackgroundColor(Color.rgb(211,89,89));
+                    }
+                    if (myColorIs == 4){
+                        getView().setBackgroundColor(Color.rgb(229,214,114));
+                    }
+                }
+
+                @Override
+                public void onCancelled(FirebaseError firebaseError) {
+
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+    }
+
+    @Override
+    public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+    }
+
+    @Override
+    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+    }
+
+    @Override
+    public void onCancelled(FirebaseError firebaseError) {
+
+    }
+});
+
+/* position stuff */
+
         return rootView;
     }
 
 
 
-     //Start a new time measure of roundtrip time
+    //Start a new time measure of roundtrip time
 /*     @Override
     public void onClick(View v) {
          if (v.getId()==R.id.iv_refresh) {
@@ -138,6 +214,26 @@ public class MainFragment extends Fragment implements View.OnTouchListener, Valu
         } catch (Exception e) {
             e.printStackTrace();
             Log.i("MainFragment","onDataChanged failed");
+        }
+        try {
+            // U402
+            Log.i("mainFragment", "här kommer siffran " + dataSnapshot.child(Constants.userName).child("position").getValue());
+Log.i("xyz", " "+dataSnapshot);
+            Log.i("xyz", " "+dataSnapshot.getKey());
+            Log.i("xyz", " "+dataSnapshot.getValue());
+            //Log.i("mainFragment", "här kommer siffran " + Constants.getFirebaseRef().child(Constants.userName).child("position").getValue());
+
+
+            if (dataSnapshot.child(Constants.userName).child("position").getValue() != null){
+               // Log.i("mainFragment", "här kommer siffran " + dataSnapshot.child(Constants.userName).child("position").getValue());
+
+                Integer position = (int) dataSnapshot.child(Constants.userName).child("position").getValue();
+                String playerPosition = String.valueOf(position);
+                Log.i("MainFragment", "Player has position " + playerPosition);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            Log.i("MainFragment", "onDataChanged failed");
         }
     }
 

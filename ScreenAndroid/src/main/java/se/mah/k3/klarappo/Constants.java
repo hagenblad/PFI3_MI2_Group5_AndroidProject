@@ -15,7 +15,7 @@ public class Constants {
     //Use static for variables that you want to reach from anywhere in the app...
 
     //Make this safer by checking if it is already created.... perhaps Firebase takes cara of this....
-    private static Firebase myFirebaseRef;
+    public static Firebase myFirebaseRef;
     public static Firebase getFirebaseRef(){
         if(myFirebaseRef==null){
             myFirebaseRef = new Firebase("https://pingispong.firebaseio.com/");
