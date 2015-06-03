@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
@@ -104,15 +105,25 @@ fbColorrs.addChildEventListener(new ChildEventListener() {
                     try {
                         if (myColorIs == 1){
                             getView().setBackgroundColor(Color.rgb(89,155,185));
+                            TextView tv2 = (TextView) getActivity().findViewById(R.id.nameTop);
+                            tv2.setText(Constants.userName);
                         }
                         if (myColorIs == 2){
                             getView().setBackgroundColor(Color.rgb(140,186,102));
+                            TextView tv2 = (TextView) getActivity().findViewById(R.id.nameTop);
+                            tv2.setText(Constants.userName);
                         }
                         if (myColorIs == 3){
                             getView().setBackgroundColor(Color.rgb(211,89,89));
+                            TextView tv1 = (TextView) getActivity().findViewById(R.id.nameSide);
+                            tv1.setText(Constants.userName);
+                            tv1.setRotation(90);
                         }
                         if (myColorIs == 4){
                             getView().setBackgroundColor(Color.rgb(229,214,114));
+                            TextView tv1 = (TextView) getActivity().findViewById(R.id.nameSide);
+                            tv1.setText(Constants.userName);
+                            tv1.setRotation(90);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
