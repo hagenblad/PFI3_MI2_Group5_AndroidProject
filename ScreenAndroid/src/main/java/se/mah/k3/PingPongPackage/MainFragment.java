@@ -1,6 +1,8 @@
 package se.mah.k3.PingPongPackage;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -99,17 +101,22 @@ fbColorrs.addChildEventListener(new ChildEventListener() {
 
                     Log.i("color pos", " " + dataSnapshotz.child("position").getValue());
                     myColorIs = (Long) dataSnapshotz.child("position").getValue();
-                    if (myColorIs == 1){
-                        getView().setBackgroundColor(Color.rgb(89,155,185));
-                    }
-                    if (myColorIs == 2){
-                        getView().setBackgroundColor(Color.rgb(140,186,102));
-                    }
-                    if (myColorIs == 3){
-                        getView().setBackgroundColor(Color.rgb(211,89,89));
-                    }
-                    if (myColorIs == 4){
-                        getView().setBackgroundColor(Color.rgb(229,214,114));
+                    try {
+                        if (myColorIs == 1){
+                            getView().setBackgroundColor(Color.rgb(89,155,185));
+                        }
+                        if (myColorIs == 2){
+                            getView().setBackgroundColor(Color.rgb(140,186,102));
+                        }
+                        if (myColorIs == 3){
+                            getView().setBackgroundColor(Color.rgb(211,89,89));
+                        }
+                        if (myColorIs == 4){
+                            getView().setBackgroundColor(Color.rgb(229,214,114));
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Log.i("Color failed","");
                     }
                 }
 
@@ -178,7 +185,7 @@ fbColorrs.addChildEventListener(new ChildEventListener() {
         try {
 
             Log.i("mainFragment", "här kommer siffran " + dataSnapshot.child(Constants.userName).child("position").getValue());
-Log.i("xyz", " "+dataSnapshot);
+            Log.i("xyz", " "+dataSnapshot);
             Log.i("xyz", " "+dataSnapshot.getKey());
             Log.i("xyz", " "+dataSnapshot.getValue());
             //Log.i("mainFragment", "här kommer siffran " + Constants.getFirebaseRef().child(Constants.userName).child("position").getValue());
@@ -207,6 +214,13 @@ Log.i("xyz", " "+dataSnapshot);
         super.onPause();
         myThread.stopThread();
         Constants.getFirebaseRef().child(Constants.userName).removeValue();
+        Firebase.goOffline();
+        Constants.userName = "";
+
+        FragmentManager fm2;
+        fm2 = getFragmentManager();
+        FragmentTransaction ft2 = fm2.beginTransaction();
+        ft2.remove(MainFragment.this).commit();
     }
 
     //Fix for this user and runs as long as the program runs
@@ -224,9 +238,11 @@ Log.i("xyz", " "+dataSnapshot);
                     e.printStackTrace();
                 }
 
+                if (running == true) {
                     roundTrip = roundTrip + 1; //Assuming that we are the only one using our ID
                     lastTimeStamp = System.currentTimeMillis();  //remember when we sent the token
                     Constants.getFirebaseRef().child(Constants.userName).child("RoundTripTo").setValue(roundTrip);
+                }
             }
         }
     }

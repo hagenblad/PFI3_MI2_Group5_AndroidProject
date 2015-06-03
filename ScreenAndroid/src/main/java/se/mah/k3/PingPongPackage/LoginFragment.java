@@ -79,6 +79,7 @@ public class LoginFragment extends Fragment implements ValueEventListener
                         //In firebase you read a value by adding a listener, then it will trigger once connected and on all changes.
                         //There is no readvalue as one could expect only listeners.
                         //Get the ScreenNbr child
+                        Firebase.goOnline();
                         Firebase  fireBaseEntryForScreenNbr = Constants.getFirebaseRef().child("ScreenNbr");
                         fireBaseEntryForScreenNbr.addValueEventListener(LoginFragment.this); //Ok listen the changes will sho up in the method onDataChange
                         //String screenNumber = String.valueOf(Constants.screenNbr);
