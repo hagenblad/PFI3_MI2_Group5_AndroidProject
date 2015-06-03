@@ -1,10 +1,7 @@
-package se.mah.k3.klarappo;
+package se.mah.k3.PingPongPackage;
 
 import com.firebase.client.Firebase;
 
-/**
- * Created by K3LARA on 29/03/2015.
- */
 public class Constants {
     public static String userName = "";
     public static int xPos = 101;

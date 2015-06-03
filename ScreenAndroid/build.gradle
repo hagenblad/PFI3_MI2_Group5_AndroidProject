@@ -5,7 +5,7 @@ android {
     buildToolsVersion "21.1.2"
 
     defaultConfig {
-        applicationId "se.mah.k3.klarappo"
+        applicationId "se.mah.k3.PingPongPackage"
         minSdkVersion 17
         targetSdkVersion 22
         versionCode 1

@@ -1,4 +1,4 @@
-package se.mah.k3.klarappo;
+package se.mah.k3.PingPongPackage;
 
 
 import android.app.Fragment;

@@ -1,9 +1,8 @@
-package se.mah.k3.klarappo;
+package se.mah.k3.PingPongPackage;
 
 import android.app.Fragment;
 import android.graphics.Color;
 import android.graphics.Point;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
@@ -11,8 +10,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.os.Handler;
 
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
